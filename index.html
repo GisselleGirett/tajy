@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.0.8/aframe/build/aframe-ar.js"></script>
+  </head>
+  <body style="margin: 0px; overflow: hidden;">
+    <a-scene embedded arjs="sourceType: webcam;">
+      
+      <!-- Marcador Hiro -->
+      <a-marker type='pattern' url='pattern-trigger_2.patt' id="marcador">
+        
+        <!-- Objeto 3D (reemplazando la caja roja por el modelo "rojo.glb") -->
+        <a-gltf-model id="arbol1" src="arbol.glb" position="0 0.5 0" scale="1 1 1"></a-gltf-model>
+        <a-gltf-model id="arbol2" src="arbol.glb" position="1 1 0" scale="1 1 1"></a-gltf-model>
+        <a-gltf-model id="arbol3" src="arbol.glb" position="1 0.5 1" scale="1 1 1"></a-gltf-model>
+
+        <a-animation attribute="rotation" dur="5000" fill="forwards" to="0 360 0" repeat="indefinite"></a-animation>
+      </a-marker>
+      
+      <!-- Sonidos -->
+      <a-sound id="sonidoArbol1" src="sonidoleve.wav" position="0 0.5 0" ></a-sound>
+      <a-sound id="sonidoArbol2" src="sonidoleve.wav" position="1 1 0"></a-sound>
+      <a-sound id="sonidoArbol3" src="sonidoleve.wav" position="1 0.5 1"></a-sound>
+
+      <!-- Cámara AR -->
+      <a-entity camera></a-entity>
+
+      <!-- Script para controlar la reproducción del sonido -->
+      <!-- Script para controlar la reproducción del sonido -->
+<script>
+  AFRAME.registerComponent('sonido-control', {
+    init: function () {
+      var marcador = document.getElementById('marcador');
+      var sonidoArbol1 = document.getElementById('sonidoArbol1');
+      var sonidoArbol2 = document.getElementById('sonidoArbol2');
+      var sonidoArbol3 = document.getElementById('sonidoArbol3');
+
+      // Añade un evento al marcador cuando se detecta
+      marcador.addEventListener('markerFound', function () {
+        // Inicia la reproducción del sonido correspondiente al modelo detectado
+        sonidoArbol1.components.sound.playSound();
+        sonidoArbol2.components.sound.playSound();
+        sonidoArbol3.components.sound.playSound();
+      });
+    }
+  });
+</script>
+
+
+      <!-- Aplica el componente de control de sonido al marcador -->
+      <a-marker sonido-control></a-marker>
+    </a-scene>
+  </body>
+</html>
+
+
